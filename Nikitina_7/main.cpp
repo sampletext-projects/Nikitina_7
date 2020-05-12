@@ -10,6 +10,14 @@ void read_mas(int* mas, int size)
 	}
 }
 
+void random_mas(int* mas, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		mas[i] = rand() % 10;
+	}
+}
+
 void write_mas(int* mas, int size)
 {
 	for (int i = 0; i < size; i++)
@@ -51,7 +59,7 @@ void get_stats(int* mas, int size, int& even, int& neven)
 	neven = count_neven(mas, size);
 }
 
-void remove_repeats(int** mas, int& size)
+void remove_non_repeated(int** mas, int& size)
 {
 	int index = 0;
 	int* src = *mas; //исходный массив
@@ -69,7 +77,7 @@ void remove_repeats(int** mas, int& size)
 		
 		src[index - k] = src[index];
 
-		if (repeats)
+		if (!repeats)
 		{
 			k++;
 		}
@@ -99,12 +107,18 @@ int main()
 	int t = 0;
 	cout << "Хотите заполнить массив самостоятельно (1)?: ";
 	cin >> t;
+
+	cout << "Введите размер массива: ";
+	cin >> n;
+	
 	if (t == 1)
-	{
-		cout << "Введите размер массива: ";
-		cin >> n;
+	{		
 		mas = new int[n];
 		read_mas(mas, n);
+	}
+	else
+	{
+		random_mas(mas, n);
 	}
 
 	cout << "Вы работаете с массивом: ";
@@ -115,10 +129,11 @@ int main()
 
 	cout << "В этом массиве: " << even << " чётных и " << neven << " нечётных элементов.\n";
 
-	remove_repeats(&mas, n);
+	remove_non_repeated(&mas, n);
 
-	cout << "Массив после удаления повторов: ";
+	cout << "Массив после удаления неповторяющихся: ";
 	write_mas(mas, n);
+	cout << "В массиве осталось " << n << " элементов\n";
 
 	system("pause");
 	return 0;
